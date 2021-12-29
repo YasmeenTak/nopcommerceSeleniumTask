@@ -96,15 +96,16 @@ public class FirstTask {
 		}
 		// Fill product name
 		Instant currentTime = Instant.now();
-		String currentTimeValue = String.valueOf(currentTime);		
+		String currentTimeValue = String.valueOf(currentTime);
 
 		WebElement productNameInput = driver.findElement(By.id("Name"));
 		String productName = "Mouse" + currentTimeValue;
 		productNameInput.sendKeys(productName);
 		Assert.assertEquals(productNameInput.getAttribute("value"), productName);
-		
-		//Verify tool tip
-		WebElement productNameTitleEle = driver.findElement(By.cssSelector("[data-original-title=\"The name of the product.\"]"));
+
+		// Verify tool tip
+		WebElement productNameTitleEle = driver
+				.findElement(By.cssSelector("[data-original-title=\"The name of the product.\"]"));
 		String expectedResultToolTipTitle = "The name of the product.";
 		String actualResultToolTipTitle = productNameTitleEle.getAttribute("title");
 		if (expectedResultToolTipTitle.equals(actualResultToolTipTitle)) {
@@ -169,16 +170,15 @@ public class FirstTask {
 		Assert.assertEquals(dropdown.getFirstSelectedOption().getText(), "Track inventory");
 
 		WebElement saveProductBtn = driver.findElement(By.name("save"));
-		
-		//Verify Hovering
+
+		// Verify Hovering
 //		Actions actions = new Actions (driver);
 //		actions.moveToElement(saveProductBtn).build().perform();
 //		String hexColor = Color.fromString(saveProductBtn.getCssValue("background-color")).asHex();
 //		System.out.println("addNewProductBtn: " + hexColor);
 //		Assert.assertEquals(hexColor, "#4580a2");
-		
-		saveProductBtn.click();
 
+		saveProductBtn.click();
 
 		// Verify Url
 		Assert.assertTrue(driver.getCurrentUrl().contains("Product/List"));
@@ -214,7 +214,6 @@ public class FirstTask {
 		boolean isAlertContains = successAlert.getText().contains("The new product has been added successfully.");
 		Assert.assertTrue(isAlertContains, "Verify alert message content");
 
-		
 		// ------------------ Add New Discount ----------//
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// Clicking on promotion
@@ -251,8 +250,7 @@ public class FirstTask {
 		pageHeadingTitle = driver.findElement(By.cssSelector("form#discount-form h1")).getText();
 		Assert.assertTrue(pageHeadingTitle.contains("Add a new discount"));
 
-		// -------------------------------------
-		// Card---------------------------------------//
+		// -------------------- Card---------------------------//
 		WebElement cardElemet = driver.findElement(By.cssSelector("#discount-cards .card-body"));
 		WebElement discountInfo2 = driver.findElement(By.id("discount-info"));
 		if (cardElemet.getCssValue("display").equals("none")) {
@@ -289,7 +287,6 @@ public class FirstTask {
 		// maximumDiscountAmount.sendKeys("5");
 
 		// Filling Start date
-		Thread.sleep(3000);
 		WebElement startDate = driver.findElement(By.cssSelector("[aria-controls=\"StartDateUtc_dateview\"]"));
 		startDate.click();
 		WebElement startDateSelect = driver.findElement(By.id("StartDateUtc"));
@@ -350,7 +347,7 @@ public class FirstTask {
 		// Get all opened browser windows
 		for (String windowID : driver.getWindowHandles()) {
 			String title = driver.switchTo().window(windowID).getTitle();
-			if (title.contains("Add a new product")) {				
+			if (title.contains("Add a new product")) {
 				// Verify Url
 				Assert.assertTrue(driver.getCurrentUrl().contains("ProductAddPopup"));
 				// Clicking and search
@@ -363,7 +360,6 @@ public class FirstTask {
 				Assert.assertTrue(selectedProduct.isSelected());
 				WebElement saveBtn2 = driver.findElement(By.name("save"));
 				saveBtn2.click();
-//				driver.close();
 				break;
 			}
 		}
@@ -383,12 +379,11 @@ public class FirstTask {
 		// Verify alert message content
 		boolean isAlertContains3 = successAlertLast.getText().contains("The discount has been updated successfully.");
 		Assert.assertTrue(isAlertContains3, "Verify alert message content");
-		
-		//Verify table updated
+
+		// Verify table updated
 		WebElement dataTables_scroll = driver.findElement(By.className("dataTables_scroll"));
 
-
-//		driver.close();
+		// driver.close();
 	}
 
 }
