@@ -1,8 +1,6 @@
 package FirstTaskSelenium;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -48,105 +46,183 @@ public class FirstTask {
 		Assert.assertTrue(aside.isDisplayed(), "Sidebar visibility");
 
 		// --------------------------- Add a new product ---------------------//
-		Thread.sleep(2000);
-		// Click Catalog
+//		Thread.sleep(2000);
+//		// Click Catalog
+//
+//		WebElement catalogBtn = driver.findElement(By.xpath("//nav/ul/li/a/*[contains(text(),'Catalog')]/ancestor::a"));
+//		catalogBtn.click();
+//
+//		// Click Product
+//		WebElement productBtn = driver.findElement(By.cssSelector("a[href=\"/Admin/Product/List\"]"));
+//		productBtn.click();
+//
+//		// Verify Url
+//		Assert.assertTrue(driver.getCurrentUrl().contains("Product/List"));
+//
+//		// Add new product
+//		WebElement addNewBtn = driver.findElement(By.cssSelector("a[href=\"/Admin/Product/Create\"]"));
+//		Assert.assertEquals(addNewBtn.getText(), "Add new");
+//		addNewBtn.click();
+//
+//		Thread.sleep(3000);
+//		WebElement card = driver.findElement(By.id("product-info"));
+//		WebElement cardSelector = driver.findElement(By.id("product-info"));
+//
+//		if (card.getAttribute("class").contains("collapsed-card")) {
+//			WebElement toggle = driver.findElement(By.cssSelector(cardSelector + " .card-title"));
+//			toggle.click();
+//			System.out.println("openCardIfClosed: " + cardSelector);
+//		}
+//		// Fill product name
+//		WebElement productName = driver.findElement(By.id("Name"));
+//		productName.sendKeys("Mouse");
+//		Assert.assertEquals(productName.getAttribute("value"), "Mouse");
+//
+//		// Fill Short description
+//		WebElement shortDescription = driver.findElement(By.id("ShortDescription"));
+//		shortDescription.sendKeys("New mouse New mouse");
+//		Assert.assertEquals(shortDescription.getAttribute("value"), "New mouse New mouse");
+//
+//		// Fill Full description
+//		WebElement frameElm = driver.findElement(By.id("FullDescription_ifr"));
+//		driver.switchTo().frame(frameElm);
+//		WebElement fullDescription = driver.switchTo().activeElement();
+//		fullDescription.sendKeys("A mouse is a small handheld input device that controls a computer screen's cursor");
+//		Assert.assertEquals(fullDescription.getText(),
+//				"A mouse is a small handheld input device that controls a computer screen's cursor");
+//		driver.switchTo().defaultContent();
+//
+//		// Fill SKU with unique value
+//		Instant currentTime = Instant.now();
+//		String currentTimeValue = String.valueOf(currentTime);
+//
+//		WebElement skuInput = driver.findElement(By.id("Sku"));
+//		String sku = "123" + currentTimeValue;
+//		;
+//		skuInput.sendKeys(sku);
+//		Assert.assertEquals(skuInput.getAttribute("value"), sku);
+//
+//		// Fill Category
+//		WebElement category = driver.findElement(By.xpath("//select[@id=\"SelectedCategoryIds\"]/parent::div"));
+//		category.click();
+//
+//		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+//		List<WebElement> selectCategoryList = driver
+//				.findElements(By.xpath("//ul[@id=\"SelectedCategoryIds_listbox\"]/li[contains(text(),'Computers')]"));
+//		selectCategoryList.get(0).click();
+//		Assert.assertEquals(selectCategoryList.get(0).getText(), "Computers");
+//
+//		WebElement a = driver.findElement(By.className("card-body"));
+//		a.click();
 
-		WebElement catalogBtn = driver.findElement(By.xpath("//nav/ul/li/a/*[contains(text(),'Catalog')]/ancestor::a"));
-		catalogBtn.click();
+//		// Fill Price
+//		WebElement priceInput = driver.findElement(By.xpath("//input[@id=\"Price\"]/preceding-sibling::input"));
+//		new Actions(driver).moveToElement(priceInput).click().perform();
+//
+//		WebElement price = driver.findElement(By.xpath("//input[@id=\"Price\"]"));
+//		price.sendKeys("10");
+//
+//		// Select Inventory
+//		WebElement inventorySelect = driver.findElement(By.id("ManageInventoryMethodId"));
+//		Select dropdown = new Select(inventorySelect);
+//		dropdown.selectByValue("1");
+//
+//		Assert.assertEquals(dropdown.getFirstSelectedOption().getText(), "Track inventory");
+//
+//		WebElement saveProductBtn = driver.findElement(By.name("save"));
+//		saveProductBtn.click();
+//
+//		Assert.assertTrue(driver.getCurrentUrl().contains("Product/List"));
+//
+//		// Verify success alert appear
+//		WebElement successAlert = driver.findElement(By.className("alert-success"));
+//		// System.out.println(successAlert.getCssValue("background-color"));
+//		boolean isSuccess = (successAlert.getCssValue("background-color").equals("rgba(23, 183, 109, 1)"));
+//		Assert.assertTrue(isSuccess, "Verify alert background-color");
+//
+//		// Verify alert message content
+//		boolean isAlertContains = successAlert.getText().contains("The new product has been added successfully.");
+//		Assert.assertTrue(isAlertContains, "Verify alert message content");
 
-		// Click Product
-		WebElement productBtn = driver.findElement(By.cssSelector("a[href=\"/Admin/Product/List\"]"));
-		productBtn.click();
+		// ------------------ Add Discount to the previously added product
+		// ---------------------//
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		// Clicking on promotion
+		WebElement promotionLink = driver
+				.findElement(By.xpath("//nav/ul/li/a/*[contains(text(),'Promotions')]/ancestor::a"));
+		promotionLink.click();
 
-		// Verify Url
-		Assert.assertTrue(driver.getCurrentUrl().contains("Product/List"));
+		// Click on Discount
+		WebElement discountLink = driver.findElement(By.cssSelector("a[href=\"/Admin/Discount/List\"]"));
+		discountLink.click();
+		Assert.assertTrue(driver.getCurrentUrl().contains("Discount/List"));
 
-		// Add new product
-		WebElement addNewBtn = driver.findElement(By.cssSelector("a[href=\"/Admin/Product/Create\"]"));
-		Assert.assertEquals(addNewBtn.getText(), "Add new");
-		addNewBtn.click();
+		// Click Add new
+		WebElement addNewDiscountBtn = driver.findElement(By.cssSelector("a[href=\"/Admin/Discount/Create\"]"));
+		Assert.assertEquals(addNewDiscountBtn.getText(), "Add new");
+		addNewDiscountBtn.click();
+		Assert.assertTrue(driver.getCurrentUrl().contains("Discount/Create"));
 
-		Thread.sleep(3000);
-		WebElement card = driver.findElement(By.id("product-info"));
-		WebElement cardSelector = driver.findElement(By.id("product-info"));
+		// Filling Discount name
+		WebElement DiscountName = driver.findElement(By.id("Name"));
+		DiscountName.sendKeys("Yasmeen Discount");
+		Assert.assertEquals(DiscountName.getAttribute("value"), "Yasmeen Discount");
 
-		if (card.getAttribute("class").contains("collapsed-card")) {
-			WebElement toggle = driver.findElement(By.cssSelector(cardSelector + " .card-title"));
-			toggle.click();
-			System.out.println("openCardIfClosed: " + cardSelector);
-		}
-		// Fill product name
-		WebElement productName = driver.findElement(By.id("Name"));
-		productName.sendKeys("Mouse");
-		Assert.assertEquals(productName.getAttribute("value"), "Mouse");
+		// Select Discount type
+		WebElement discountType = driver.findElement(By.id("DiscountTypeId"));
+		Select dropdownSelect = new Select(discountType);
+		// dropdownSelect.selectByVisibleText("Assigned to products");
+		dropdownSelect.selectByValue("2");
+		Assert.assertEquals(dropdownSelect.getFirstSelectedOption().getText(), "Assigned to products");
 
-		// Fill Short description
-		WebElement shortDescription = driver.findElement(By.id("ShortDescription"));
-		shortDescription.sendKeys("New mouse New mouse");
-		Assert.assertEquals(shortDescription.getAttribute("value"), "New mouse New mouse");
+		// Check box Use percentage
+		WebElement discountUsePercentage = driver.findElement(By.id("UsePercentage"));
+		discountUsePercentage.click();
+		WebElement maxDiscount = driver.findElement(By.id("pnlMaximumDiscountAmount"));
+		Assert.assertTrue(maxDiscount.isDisplayed(), "Maximum discount amount visibility");
 
-		// Fill Full description
-		WebElement frameElm = driver.findElement(By.id("FullDescription_ifr"));
-		driver.switchTo().frame(frameElm);
-		WebElement fullDescription = driver.switchTo().activeElement();
-		fullDescription.sendKeys("A mouse is a small handheld input device that controls a computer screen's cursor");
-		Assert.assertEquals(fullDescription.getText(),
-				"A mouse is a small handheld input device that controls a computer screen's cursor");
-		driver.switchTo().defaultContent();
+		// Filling Discount percentage
 
-		// Fill SKU with unique value
-		Instant currentTime = Instant.now();
-		String currentTimeValue = String.valueOf(currentTime);
+		WebElement discountPercentage1 = driver
+				.findElement(By.xpath("//input[@class=\"k-input\"]/preceding-sibling::input"));
 
-		WebElement skuInput = driver.findElement(By.id("Sku"));
-		String sku = "123" + currentTimeValue;
-		;
-		skuInput.sendKeys(sku);
-		Assert.assertEquals(skuInput.getAttribute("value"), sku);
+//		WebElement discountPercentage = driver.findElement(By.cssSelector("[title=\"0.0000 \"]"));
+//		new Actions(driver).moveToElement(discountPercentage1).click().perform();
+//		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+//
+//		discountPercentage.clear();
+//		discountPercentage.sendKeys("5");
 
-		// Fill Category
-		WebElement category = driver.findElement(By.xpath("//select[@id=\"SelectedCategoryIds\"]/parent::div"));
-		category.click();
+		// Filling Discount percentage
+		WebElement maximumDiscountAmount = driver.findElement(By.id("MaximumDiscountAmount"));
+		// new Actions(driver).moveToElement(maximumDiscountAmount).click().perform();
+		// maximumDiscountAmount.sendKeys("5");
 
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-		List<WebElement> selectCategoryList = driver
-				.findElements(By.xpath("//ul[@id=\"SelectedCategoryIds_listbox\"]/li[contains(text(),'Computers')]"));
-		selectCategoryList.get(0).click();
-		Assert.assertEquals(selectCategoryList.get(0).getText(), "Computers");
+		// Filling Start date
+		WebElement startDate = driver.findElement(By.cssSelector("[aria-controls=\"StartDateUtc_dateview\"]"));
+		startDate.click();
+		WebElement startDateSelect = driver.findElement(By.cssSelector("[data-value=\"2021/11/31\"]"));
+		startDateSelect.click();
 
-		WebElement a = driver.findElement(By.className("card-body"));
-		a.click();
-		// Fill Price
-		WebElement priceInput = driver.findElement(By.xpath("//input[@id=\"Price\"]/preceding-sibling::input"));
-		new Actions(driver).moveToElement(priceInput).click().perform();
+		// Filling End date
+		WebElement endDate = driver.findElement(By.cssSelector("[aria-controls=\"EndDateUtc_dateview\"]"));
+		endDate.click();
+		WebElement endDateInput = driver.findElement(By.id("EndDateUtc"));
+		endDateInput.sendKeys("2/28/2022 12:00 AM");
 
-		WebElement price = driver.findElement(By.xpath("//input[@id=\"Price\"]"));
-		price.sendKeys("10");
-
-		// Select Inventory
-		WebElement inventorySelect = driver.findElement(By.id("ManageInventoryMethodId"));
-		Select dropdown = new Select(inventorySelect);
-		dropdown.selectByValue("1");
-
-		Assert.assertEquals(dropdown.getFirstSelectedOption().getText(), "Track inventory");
-
-		WebElement saveProductBtn = driver.findElement(By.name("save"));
-		saveProductBtn.click();
-
-		Assert.assertTrue(driver.getCurrentUrl().contains("Product/List"));
+		// Clicking save button
+		WebElement saveBtn = driver.findElement(By.name("save"));
+		saveBtn.click();
 
 		// Verify success alert appear
-		WebElement successAlert = driver.findElement(By.className("alert-success"));
+		WebElement successAlert2 = driver.findElement(By.className("alert-success"));
 		// System.out.println(successAlert.getCssValue("background-color"));
-		boolean isSuccess = (successAlert.getCssValue("background-color").equals("rgba(23, 183, 109, 1)"));
+		boolean isSuccess = (successAlert2.getCssValue("background-color").equals("rgba(23, 183, 109, 1)"));
 		Assert.assertTrue(isSuccess, "Verify alert background-color");
 
 		// Verify alert message content
-		boolean isAlertContains = successAlert.getText().contains("The new product has been added successfully.");
+		boolean isAlertContains = successAlert2.getText().contains("The new discount has been added successfully.");
 		Assert.assertTrue(isAlertContains, "Verify alert message content");
-
-		// ------------------ Add Discount to the previously added product  ---------------------//
-
 	}
 
 }
