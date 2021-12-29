@@ -1,13 +1,16 @@
 package FirstTaskSelenium;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public class FirstTask {
@@ -19,6 +22,8 @@ public class FirstTask {
 		// TODO Auto-generated method stub
 		WebDriver driver = new ChromeDriver();
 		driver.get(url);
+		WebDriverWait wait = new WebDriverWait (driver, Duration.ofSeconds(5));
+
 		driver.manage().window().maximize();
 		// Assert Title
 		String actualTitle = driver.getTitle();
@@ -152,17 +157,42 @@ public class FirstTask {
 				.findElement(By.xpath("//nav/ul/li/a/*[contains(text(),'Promotions')]/ancestor::a"));
 		promotionLink.click();
 
+		//Verify sidebar
+		WebElement promotionSidebarItem = driver
+				.findElement(By.xpath("//ul/li/a/p[contains(text(),'Promotions')]/parent::a/parent::li"));
+			wait.until(ExpectedConditions.attributeContains(promotionSidebarItem, "class", "menu-open"));
+			Assert.assertTrue(promotionSidebarItem.getAttribute("class").contains("menu-open"));
+		
 		// Click on Discount
 		WebElement discountLink = driver.findElement(By.cssSelector("a[href=\"/Admin/Discount/List\"]"));
 		discountLink.click();
+		
+		//Verify url
 		Assert.assertTrue(driver.getCurrentUrl().contains("Discount/List"));
+		
+		//Verify Heading
+		String pageHeadingTitle = driver.findElement(By.cssSelector(".content-header h1")).getText();
+		Assert.assertTrue(pageHeadingTitle.contains("Discounts"));
 
 		// Click Add new
 		WebElement addNewDiscountBtn = driver.findElement(By.cssSelector("a[href=\"/Admin/Discount/Create\"]"));
 		Assert.assertEquals(addNewDiscountBtn.getText(), "Add new");
 		addNewDiscountBtn.click();
+		
+		//Verify url Add new
 		Assert.assertTrue(driver.getCurrentUrl().contains("Discount/Create"));
-
+		
+		//Verify Heading
+		pageHeadingTitle = driver.findElement(By.cssSelector("form#discount-form h1")).getText();
+		Assert.assertTrue(pageHeadingTitle.contains("Add a new discount"));
+		
+		//---------------------------------------- Card ------------------------------------------//
+		WebElement cardElemet = driver.findElement(By.cssSelector("#discount-cards .card-body"));
+		WebElement discountInfo = driver.findElement(By.id("discount-info"));
+		if (cardElemet.getCssValue("display").equals("none")) {
+			discountInfo.click();
+		}
+		
 		// Filling Discount name
 		WebElement DiscountName = driver.findElement(By.id("Name"));
 		DiscountName.sendKeys("Yasmeen Discount");
@@ -182,16 +212,9 @@ public class FirstTask {
 		Assert.assertTrue(maxDiscount.isDisplayed(), "Maximum discount amount visibility");
 
 		// Filling Discount percentage
-
-		WebElement discountPercentage1 = driver
-				.findElement(By.xpath("//input[@class=\"k-input\"]/preceding-sibling::input"));
-
-//		WebElement discountPercentage = driver.findElement(By.cssSelector("[title=\"0.0000 \"]"));
-//		new Actions(driver).moveToElement(discountPercentage1).click().perform();
-//		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-//
-//		discountPercentage.clear();
-//		discountPercentage.sendKeys("5");
+		WebElement discountPercentage = driver
+				.findElement(By.xpath("//*[@id=\"pnlDiscountPercentage\"]/div[2]/span/span/input[1]"));
+		discountPercentage.sendKeys("5" + Keys.TAB);
 
 		// Filling Discount percentage
 		WebElement maximumDiscountAmount = driver.findElement(By.id("MaximumDiscountAmount"));
@@ -223,6 +246,11 @@ public class FirstTask {
 		// Verify alert message content
 		boolean isAlertContains = successAlert2.getText().contains("The new discount has been added successfully.");
 		Assert.assertTrue(isAlertContains, "Verify alert message content");
+		
+		//Verify url 
+		Assert.assertTrue(driver.getCurrentUrl().contains("Discount/List"));
+		
+//		driver.close();
 	}
 
 }
