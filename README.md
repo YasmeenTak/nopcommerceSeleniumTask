@@ -3,6 +3,7 @@
 <a href="https://selenium.dev"><img src="https://selenium.dev/images/selenium_logo_square_green.png" width="180" alt="Selenium"/></a>
 
 [![Java workflow](https://github.com/SeleniumHQ/selenium/workflows/Java%20workflow/badge.svg)](https://github.com/SeleniumHQ/selenium/actions?query=workflow%3A%22Java+workflow%22)
+[![Java workflow](https://github.com/SeleniumHQ/selenium/workflows/JavaScript%20workflow/badge.svg)](https://github.com/SeleniumHQ/selenium/actions?query=workflow%3A%22JavaScript+workflow%22)
 
 ## Requirements
 
